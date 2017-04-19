@@ -7,10 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void errorExit(char *msg);
+
 int main(int argc, char **argv)
 {
 	unsigned long gen, births, i;
 	long long pop;
+	char *badchar;
 
 	if (argc != 4) {
 		fprintf(stderr, "usage: rabbits population avg_births "
@@ -18,9 +21,20 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	pop = strtoul(argv[1], NULL, 10);
-	births = strtoul(argv[2], NULL, 10);
-	gen = strtoul(argv[3], NULL, 10);
+	pop = strtoul(argv[1], &badchar, 10);
+	if (*badchar != '\0') {
+		errorExit("population must be a positive integer");
+	}
+
+	births = strtoul(argv[2], &badchar, 10);
+	if (*badchar != '\0') {
+		errorExit("avg_births must be a positive integer");
+	}
+
+	gen = strtoul(argv[3], &badchar, 10);
+	if (*badchar != '\0') {
+		errorExit("num_generations must be a positive integer");
+	}
 
 	for (i = 0; i < gen; i++) {
 		printf("Population after %2lu generations: %lld\n", i, pop);
@@ -29,4 +43,10 @@ int main(int argc, char **argv)
 	}
 
 	return 0;
+}
+
+void errorExit(char *msg)
+{
+	fprintf(stderr, "rabbits: %s\n", msg);
+	exit(2);
 }
