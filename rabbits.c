@@ -9,6 +9,9 @@
 
 void errorExit(char *msg);
 
+/**
+ * Main
+ */
 int main(int argc, char **argv)
 {
 	unsigned long gen, births, i;
@@ -45,6 +48,9 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+/**
+ * Print an error message and exit
+ */
 void errorExit(char *msg)
 {
 	fprintf(stderr, "rabbits: %s\n", msg);
